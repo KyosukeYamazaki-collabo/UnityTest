@@ -1,0 +1,29 @@
+OVRLipSyncを自前モデルに適用するために。
+
+動作確認環境
+‐Unity 2018.3.11f1
+‐oculus Lipsync 1.40.0
+‐Unity Chan 1.2.1
+
+
+1．OVRLipSync（https://developer.oculus.com/downloads/package/oculus-lipsync-unity/）をダウンロードし、
+プロジェクトにPackageをImport
+
+2．モデルもインポートしとく。
+
+3．hierarchyに空のGameObjectを作成して、AddComponentで「OVRLipSync」を選択し、アタッチ
+
+4．モデルもhierarchyに追加（Assets/UnityChan/Prefabs/の中にある、unitychan.prefabをhierarchyに追加）
+
+5．顔（口）部分メッシュ（Skinned Mesh Renderer）があるレイヤーに空のgameObjectを追加。
+そこにOVRLipSyncContextとOVRLipSyncContextMorphTargetをAddComponentする。（自動的にAudioSourceも追加される）
+
+6．OVRLipSyncContextMorphTargetのVisemeToBlendTargetsに、そのモデルが持つブレンドシェイプとVisemeを対応付ける。
+
+7．AudioSourceに音声ファイルをセットする
+
+これで基本的に終了。
+
+エラーが特に出ないが、音も口も動かない場合は、
+Assets/Oculus/LipSync/Scripts/にある、OVRLipSyncContextMorphTarget.csの117行前後にある、Update()をLateUpdate()に変更するとうまくいくかも。
+音声から抽出した音素と口のモーフィングの順番がおかしくなっている可能性があるため。
